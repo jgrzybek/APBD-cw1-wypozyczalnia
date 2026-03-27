@@ -9,5 +9,5 @@ public abstract class User(string name, string surname, UserType userType)
     public int Id { get; set; } = _nextId++;
     public string Name { get; set; } = name;
     public string Surname { get; set; } = surname;
-    public UserType UserType { get; set; } = userType;
+    public UserType UserType { get; } = userType;
 }
