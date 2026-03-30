@@ -14,4 +14,11 @@ public class Rental(User user, Equipment equipment, DateTime startDate, DateTime
     public DateTime EndDate { get; set; } = endDate;
     public DateTime? ReturnedDate { get; set; } = null;
     public bool IsActive { get; set; } = true;
+
+    public void EndRental(DateTime endDate)
+    {
+        ReturnedDate = endDate;
+        IsActive = false;
+    }
+    
 }
