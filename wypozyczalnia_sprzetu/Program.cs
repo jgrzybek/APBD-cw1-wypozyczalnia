@@ -45,5 +45,14 @@ catch (Exception e)
 }
 
 //zwrot w terminie
-rentalService.End(rentalService.getActiveByUser(users[1]).First().Id, new DateTime(2020, 1, 2));
+rentalService.End(rentalService.getActiveByUser(users[2]).First().Id, new DateTime(2020, 1, 2));
 
+//zwrot opóźniony
+Console.Write("Naliczona kara za przekroczenie czasu: ");
+Console.Write(rentalService.End(rentalService.getActiveByUser(users[2]).First().Id, new DateTime(2020, 1, 6)));
+Console.Write("zł\n");
+
+foreach (var raportLine in rentalService.getRaport())
+{
+    Console.WriteLine(raportLine);
+}
