@@ -33,6 +33,7 @@ catch (Exception e)
 {
     Console.WriteLine(e);
 }
+Console.WriteLine("\n");
 
 //wypożyczenie niedostępnego sprzętu
 try
@@ -44,6 +45,8 @@ catch (Exception e)
     Console.WriteLine(e);
 }
 
+Console.WriteLine("\n");
+
 //zwrot w terminie
 rentalService.End(rentalService.getActiveByUser(users[2]).First().Id, new DateTime(2020, 1, 2));
 
@@ -52,7 +55,10 @@ Console.Write("Naliczona kara za przekroczenie czasu: ");
 Console.Write(rentalService.End(rentalService.getActiveByUser(users[2]).First().Id, new DateTime(2020, 1, 6)));
 Console.Write("zł\n");
 
+//Generowanie raportu
+Console.WriteLine("\nRapport: ");
 foreach (var raportLine in rentalService.getRaport())
 {
     Console.WriteLine(raportLine);
 }
+
