@@ -13,9 +13,9 @@ public class RenralService : IRentalService
 
     private readonly HashSet<Rental> _rentals = [];
     
-    public void CreateRental(User user, Equipment equipment, DateTime startDate, DateTime endDate)
+    public void Create(User user, Equipment equipment, DateTime startDate, DateTime endDate)
     {
-        var activeRentals = getActiveRentalsUser(user).Count;
+        var activeRentals = getActiveByUser(user).Count;
         if (user.UserType == UserType.Student && activeRentals >= MaxStudentRentals
             || user.UserType == UserType.Employee && activeRentals >= MaxEmployeeRentals)
             throw new TooManyActiveRentalsException(user, activeRentals);
@@ -26,7 +26,7 @@ public class RenralService : IRentalService
         _rentals.Add(new Rental(user, equipment, startDate, endDate));
     }
 
-    public double EndRental(int rentalId,  DateTime endDate) //returns delay fee
+    public double End(int rentalId,  DateTime endDate) //returns delay fee
     {
         var rental = _rentals.FirstOrDefault(rental => rental.Id == rentalId);
         if (rental is not null)
@@ -43,12 +43,12 @@ public class RenralService : IRentalService
             throw new RentalNotFoundException(rentalId);
     }
 
-    public List<Rental> getActiveRentalsUser(User user)
+    public List<Rental> getActiveByUser(User user)
     {
         return _rentals.Where(rental => rental.IsActive && rental.User == user).ToList();
     }
 
-    public List<Rental> getOverdueRentals()
+    public List<Rental> getOverdue()
     {
         return _rentals.Where(rental => rental.IsActive && rental.EndDate < DateTime.Now).ToList();
     }
@@ -59,7 +59,7 @@ public class RenralService : IRentalService
         {
             { "All rentals: ", _rentals.Count },
             { "Active rentals: ", _rentals.Count(rental => rental.IsActive) },
-            { "Overdue rentals: ", getOverdueRentals().Count }
+            { "Overdue rentals: ", getOverdue().Count }
         };
     }
 }
