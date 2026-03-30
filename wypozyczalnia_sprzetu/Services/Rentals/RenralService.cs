@@ -13,7 +13,7 @@ public class RenralService : IRentalService
 
     private readonly HashSet<Rental> _rentals = [];
     
-    public void Create(User user, Equipment equipment, DateTime startDate, DateTime endDate)
+    public void Create(User user, Models.Items.Equipment equipment, DateTime startDate, DateTime endDate)
     {
         var activeRentals = getActiveByUser(user).Count;
         if (user.UserType == UserType.Student && activeRentals >= MaxStudentRentals
@@ -22,6 +22,8 @@ public class RenralService : IRentalService
         
         if (equipment.Status == EquipmentStatus.Unavailable)
             throw new EquipmentUnavailableException(equipment.Id);
+        
+        equipment.Status = EquipmentStatus.Unavailable;
         
         _rentals.Add(new Rental(user, equipment, startDate, endDate));
     }
@@ -39,8 +41,7 @@ public class RenralService : IRentalService
             
             return 0;
         }
-        else
-            throw new RentalNotFoundException(rentalId);
+        throw new RentalNotFoundException(rentalId);
     }
 
     public List<Rental> getActiveByUser(User user)
